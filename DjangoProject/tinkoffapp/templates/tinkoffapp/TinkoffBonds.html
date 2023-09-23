@@ -1,0 +1,37 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'main/css/navigation.css' %}">
+    <link rel="stylesheet" href="{% static 'css/TinkoffShare.css' %}">
+{% endblock %}
+
+{% block title %}
+    Тинькофф Облигации
+{% endblock %}
+
+
+
+{% block content %}
+
+<table class="table-fill">
+<thead>
+<tr><th>Наименование</th><th>Фиги</th><th>Кол-во</th><th>Ожидания</th><th class="MidByPrice">Средняя цена покупки</th><th>Текущая цена</th><th>Валюта</th><th>Купонов в год</th><th>НКД</th></tr> <!--ряд с ячейками заголовков-->
+</thead>
+<tbody class="table-hover">
+    {% for el in BondList %}
+    <tr><td class="text-left">{{ el.name }}</td>
+    <td class="text-left">{{ el.figi }}</td>
+    <td class="text-left">{{ el.quantity }}</td>
+    <td class="text-left">{{ el.expected_yield }}</td>
+    <td class="text-left">{{ el.average_buy_price }}</td>
+    <td class="text-left">{{ el.current_price }}</td>
+    <td class="text-left">{{ el.currency }}</td>
+    <td class="text-left">{{ el.CupQuaPerYear }}</td>
+    <td class="text-left">{{ el.aci_value }}</td></tr>
+    {% endfor %} <!--ряд с ячейками тела таблицы-->
+</tbody>
+</table>
+<h1>{{ TotalBondYield }}</h1>
+
+{% endblock %}

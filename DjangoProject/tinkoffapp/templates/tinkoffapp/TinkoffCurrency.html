@@ -1,0 +1,36 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'main/css/navigation.css' %}">
+    <link rel="stylesheet" href="{% static 'css/TinkoffShare.css' %}">
+{% endblock %}
+
+{% block title %}
+    Тинькофф Валюта
+{% endblock %}
+
+
+
+{% block content %}
+
+<table class="table-fill">
+<thead>
+<tr><th>Наименование</th><th>Фиги</th><th>Кол-во</th><th>Ожидания</th><th class="MidByPrice">Средняя цена покупки</th><th>Текущая цена</th><th>Валюта</th></tr> <!--ряд с ячейками заголовков-->
+</thead>
+<tbody class="table-hover">
+    {% for el in CurrList %}
+    <tr><td class="text-left">{{ el.name }}</td>
+    <td class="text-left">{{ el.figi }}</td>
+    <td class="text-left">{{ el.quantity }}</td>
+    <td class="text-left">{{ el.expected_yield }}</td>
+    <td class="text-left">{{ el.average_buy_price }}</td>
+    <td class="text-left">{{ el.current_price }}</td>
+    <td class="text-left">{{ el.currency }}</td></tr>
+
+    {% endfor %} <!--ряд с ячейками тела таблицы-->
+</tbody>
+</table>
+<h1>{{ TotalCurrYield }}</h1>
+
+{% endblock %}
