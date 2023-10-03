@@ -168,125 +168,9 @@ body {
 /*
 /*
 /* =============================================== /*
-/*               Clock animated By  Max            /*
-/*          http://codepen.io/MyXoToD/pen/psLen    /*
+/*               Clock animated By                 /*
 /* =============================================== */
-.clock {
-  position: relative;
-  height: 123px;
-  width: 123px;
-  background: white;
-  box-sizing: border-box;
-  -webkit-border-radius: 100%;
-  -moz-border-radius: 100%;
-  border-radius: 100%;
-  border: 6px solid #5685A1;
-  position: absolute;
-  top: 30px;
-  left: 5%;
-  margin: auto; }
-  .clock .top {
-    position: absolute;
-    width: 3px;
-    height: 8px;
-    background: #262626;
-    left: 0;
-    right: 0;
-    margin: 0 auto; }
-  .clock .right {
-    position: absolute;
-    width: 8px;
-    height: 3px;
-    background: #262626;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    margin: auto 0; }
-  .clock .bottom {
-    position: absolute;
-    width: 3px;
-    height: 8px;
-    background: #262626;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: 0 auto; }
-  .clock .left {
-    position: absolute;
-    width: 8px;
-    height: 3px;
-    background: #262626;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto 0; }
-  .clock .center {
-    height: 6px;
-    width: 6px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    background: #262626;
-    -webkit-border-radius: 100%;
-    -moz-border-radius: 100%;
-    border-radius: 100%; }
-  .clock .hour {
-    width: 3px;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    -webkit-animation: time 86400s infinite linear;
-    -moz-animation: time 86400s infinite linear;
-    -o-animation: time 86400s infinite linear;
-    animation: time 86400s infinite linear; }
-    .clock .hour:before {
-      position: absolute;
-      content: "";
-      background: #262626;
-      height: 60px;
-      width: 3px;
-      top: 30px; }
-  .clock .minute {
-    width: 1px;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    -webkit-animation: time 3600s infinite linear;
-    -moz-animation: time 3600s infinite linear;
-    -o-animation: time 3600s infinite linear;
-    animation: time 3600s infinite linear; }
-    .clock .minute:before {
-      position: absolute;
-      content: "";
-      background: #262626;
-      height: 40px;
-      width: 1px;
-      top: 50px; }
-  .clock .second {
-    width: 2px;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    -webkit-animation: time 60s infinite linear;
-    -moz-animation: time 60s infinite linear;
-    -o-animation: time 60s infinite linear;
-    animation: time 60s infinite linear; }
-    .clock .second:before {
-      position: absolute;
-      content: "";
-      background: #fd1111;
-      height: 45px;
-      width: 2px;
-      top: 45px; }
+
 
 /*
 /*
@@ -327,20 +211,7 @@ body {
   .books span {
     float: left;
     position: relative;
-    /* Orange */
-    /* Yellow */
-    /* White */
-    /* Blue */
-    /* Positions */
-    /* Books Decoration*/
-    /* Book 2 */
-    /* Book 4 */
-    /* Book 5 */
-    /* Book 6 */
-    /* Book 8 */
-    /* Book 9 */
-    /* Book 10 */
-    /* Book 11 */ }
+  }
     .books span:nth-child(1), .books span:nth-child(12), .books span:nth-child(4), .books span:nth-child(6) {
       width: 15px;
       height: 61px;

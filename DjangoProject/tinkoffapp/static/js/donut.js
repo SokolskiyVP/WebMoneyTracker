@@ -44,11 +44,11 @@ function createPie(id) {
       "#A600A6",
       "#CCF600",
       "#FFEF00",
-      // "#ff61d8",
-      // "#7ed1e2",
-      // "#569cfa",
-      // "#a5ea9b",
-      // "#ffcc81"
+      "#00937e",
+      "#7ed1e2",
+      "#569cfa",
+      "#a5ea9b",
+      "#ffcc81"
     ];
 
   color = shuffle( color );

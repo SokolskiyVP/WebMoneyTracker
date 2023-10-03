@@ -40,7 +40,17 @@ def TikoffDiagrammSectors():
             sectors.loc[el, 'sector_rus'] = "Машиностроение и транспорт"
 
         elif sectors.iloc[el].sector == "consumer":
-            sectors.loc[el, 'sector_rus'] = "XTNJ"
+            sectors.loc[el, 'sector_rus'] = "Потребительский"
+
+        elif sectors.iloc[el].sector == "telecom":
+            sectors.loc[el, 'sector_rus'] = "Телекоммуникации"
+
+        elif sectors.iloc[el].sector == "materials":
+            sectors.loc[el, 'sector_rus'] = "Сырьевая промышленность"
+
+        elif sectors.iloc[el].sector == "energy":
+            sectors.loc[el, 'sector_rus'] = "Энергетика"
+
 
     UniqueSectors = len(sectors.sector.unique())
 
@@ -53,10 +63,12 @@ def TikoffDiagrammSectors():
             sectors.loc[el, 'amount'] = (sectors.loc[el, 'amount'] + (sectors.loc[el+1, 'price'] * sectors.loc[el+1, 'quantity']))
             sectors.drop((el+1), inplace=True)
             sectors.reset_index(drop=True, inplace=True)
-
-
         else:
+            print(el)
             sectors.loc[el, 'amount'] = sectors.loc[el, 'price'] * sectors.loc[el, 'quantity']
+    sectors.loc[UniqueSectors-1, 'amount'] = sectors.loc[UniqueSectors-1, 'price'] * sectors.loc[UniqueSectors-1, 'quantity']
+
+    print(sectors)
 
     del sectors['sector']
     del sectors['instrument_type']
@@ -85,7 +97,6 @@ def tinkoffapp(request):
     TotalETFYield = tinkoff_etf()['TotalETFYield']
     TotalCurrYield = tinkoff_curr()['TotalCurrYield']
     SectorsList = TikoffDiagrammSectors()
-    print("%.2f" % SectorsList[0].amount)
 
     data = {
         'total_amount_portfolio': round(General_Inf.Hola().cast_money(GenTinkoffData.total_amount_portfolio),1),
