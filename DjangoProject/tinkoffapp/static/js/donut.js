@@ -82,9 +82,9 @@ function shuffle(a) {
 }
 
 function createPieCharts() {
-  createPie('.pieID--micro-skills' );
-  createPie('.pieID--categories' );
-  createPie('.pieID--operations' );
+  createPie('.pieID--actives' );
+  createPie('.pieID--sectors' );
+  createPie('.pieID--companies' );
 }
 
 createPieCharts();

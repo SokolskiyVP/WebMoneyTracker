@@ -21,7 +21,7 @@ body {
     position: relative;
     height: 200px;
     width: 200px;
-    margin: 10px auto 35px; }
+    margin: 35px auto 35px; }
     .pie-chart__pie::before {
       content: "";
       display: block;

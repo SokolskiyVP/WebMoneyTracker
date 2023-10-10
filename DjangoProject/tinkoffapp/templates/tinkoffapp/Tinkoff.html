@@ -25,9 +25,6 @@
         <h2>Общая стоимость портфеля: {{ total_amount_portfolio }}</h2>
 
           <table class="table-fill">
-            <thead>
-            <tr><th></th><th class="inf_col"></th></tr> <!--ряд с ячейками заголовков-->
-            </thead>
             <tbody class="table-hover">
               <tr>
                 <td>
@@ -66,24 +63,52 @@
               </tr>
             </tbody>
           </table>
-
-        <h3>Свободные рубли: {{ FreeRub }}</h3>
       <div class="total">
-        <h3 class="total_item">Общая прибль:</h3> <h3 class="total_item" id="tot_yield">{{ TotalYield }}</h3>
+        <div class="total_item">
+          <h3>Общая прибль:</h3><h3 class="total_item" id="tot_yield">{{ TotalYield }}</h3>
+        </div>
+        <h3 class="total_item">Свободные рубли: {{ FreeRub }}</h3>
       </div>
     </div>
 
 
-
-
-
-
-
 <div class="wrapper">
-  <h1>Сектора экономики</h1>
   <div class="pie-charts">
-    <div class="pieID--operations pie-chart--wrapper">
+    <div class="pieID--actives pie-chart--wrapper">
       <div class="pie-chart">
+        <h1>Активы</h1>
+        <div class="pie-chart__pie"></div>
+        <ul class="pie-chart__legend">
+          {% for el in ActivesList %}
+          <li><em>{{ el.active_rus }}</em><span>{{ el.amount }}</span></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="pie-charts">
+    <div class="pieID--companies pie-chart--wrapper">
+      <div class="pie-chart">
+        <h1>Компании</h1>
+        <div class="pie-chart__pie"></div>
+        <ul class="pie-chart__legend">
+          {% for el in CompaniesList %}
+          <li><em>{{ el.compname }}</em><span>{{ el.amount }}</span></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="pie-charts">
+    <div class="pieID--sectors pie-chart--wrapper">
+      <div class="pie-chart">
+        <h1>Сектора экономики</h1>
         <div class="pie-chart__pie"></div>
         <ul class="pie-chart__legend">
           {% for el in SectorsList %}
