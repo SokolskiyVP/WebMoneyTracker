@@ -119,7 +119,7 @@ def TinkoffDiagramCompanies():
     return CompaniesList
 
 def tinkoffapp(request):
-    GenTinkoffData = General_Inf.Hola().GeneralInfo()
+    GenTinkoffData = General_Inf.GeneralInfo()
     DetalInfo = General_Inf.Hola().DetalInfo()
     Details = pd.DataFrame(DetalInfo.DetInf)
     global df_Global
@@ -157,16 +157,22 @@ def tinkoffapp(request):
 
 def tinkoff_shares():
     TotalYield = 0
+    BuyAmount = 0
+    CurrentAmount = 0
     ShareList = []
     df = df_Global
     for el in range(len(df)):
         if df.iloc[el].instrument_type == 'share':
             ShareList.append(df.iloc[el])
             TotalYield = TotalYield + df.iloc[el].expected_yield
+            BuyAmount = BuyAmount + df.iloc[el].average_buy_price * df.iloc[el].quantity
+            CurrentAmount = CurrentAmount + df.iloc[el].current_price * df.iloc[el].quantity
 
     ShareDick= {
         'ShareList': ShareList,
         'TotalShareYield': round(TotalYield,1),
+        'BuyAmount': round(BuyAmount, 1),
+        'CurrentAmount': round(CurrentAmount, 1),
     }
     return ShareDick
 
@@ -177,16 +183,23 @@ def render_tinkoff_shares(request):
 
 def tinkoff_bonds():
     TotalYield = 0
+    BuyAmount = 0
+    CurrentAmount = 0
     BondList = []
     df = df_Global
     for el in range(len(df)):
         if df.iloc[el].instrument_type == 'bond':
             BondList.append(df.iloc[el])
             TotalYield = TotalYield + df.iloc[el].expected_yield
+            BuyAmount = BuyAmount + df.iloc[el].average_buy_price * df.iloc[el].quantity
+            CurrentAmount = CurrentAmount + df.iloc[el].current_price * df.iloc[el].quantity
 
     BondDick= {
         'BondList': BondList,
         'TotalBondYield': round(TotalYield,1),
+        'BuyAmount': round(BuyAmount, 1),
+        'CurrentAmount': round(CurrentAmount, 1),
+
     }
     return BondDick
 
@@ -197,16 +210,22 @@ def render_tinkoff_bonds(request):
 
 def tinkoff_etf():
     TotalYield = 0
+    BuyAmount = 0
+    CurrentAmount = 0
     ETFList = []
     df = df_Global
     for el in range(len(df)):
         if df.iloc[el].instrument_type == 'etf':
             ETFList.append(df.iloc[el])
             TotalYield = TotalYield + df.iloc[el].expected_yield
+            BuyAmount = BuyAmount + df.iloc[el].average_buy_price * df.iloc[el].quantity
+            CurrentAmount = CurrentAmount + df.iloc[el].current_price * df.iloc[el].quantity
 
     ETFDick= {
         'ETFList': ETFList,
         'TotalETFYield': round(TotalYield,1),
+        'BuyAmount': round(BuyAmount, 1),
+        'CurrentAmount': round(CurrentAmount, 1),
     }
     return ETFDick
 
@@ -217,16 +236,22 @@ def render_tinkoff_etf(request):
 
 def tinkoff_curr():
     TotalYield = 0
+    BuyAmount = 0
+    CurrentAmount = 0
     CurrList = []
     df = df_Global
     for el in range(len(df)):
         if df.iloc[el].instrument_type == 'currency':
             CurrList.append(df.iloc[el])
             TotalYield = TotalYield + df.iloc[el].expected_yield
+            BuyAmount = BuyAmount + df.iloc[el].average_buy_price * df.iloc[el].quantity
+            CurrentAmount = CurrentAmount + df.iloc[el].current_price * df.iloc[el].quantity
 
     CurrDick= {
         'CurrList': CurrList,
         'TotalCurrYield': round(TotalYield,1),
+        'BuyAmount': round(BuyAmount, 1),
+        'CurrentAmount': round(CurrentAmount, 1),
     }
     return CurrDick
 
@@ -234,6 +259,4 @@ def render_tinkoff_curr(request):
     CurrDick = tinkoff_curr()
 
     return render(request, 'tinkoffapp/TinkoffCurrency.html', CurrDick)
-
-
 
