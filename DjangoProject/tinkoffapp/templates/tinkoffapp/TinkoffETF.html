@@ -16,7 +16,13 @@
 
 <table class="table-fill">
 <thead>
-<tr><th>Наименование</th><th>Фиги</th><th>Кол-во</th><th>Ожидания</th><th class="MidByPrice">Средняя цена покупки</th><th>Текущая цена</th><th>Валюта</th></tr> <!--ряд с ячейками заголовков-->
+<tr><th>Наименование</th>
+    <th>Кол-во</th>
+    <th>Ожидания</th>
+    <th>Средняя цена покупки</th>
+    <th>Текущая цена</th>
+    <th>Стоимость</th>
+    <th>Валюта</th></tr> <!--ряд с ячейками заголовков-->
 </thead>
 <tbody class="table-hover">
     {% for el in ETFList %}
@@ -26,11 +32,19 @@
     <td class="text-left">{{ el.expected_yield }}</td>
     <td class="text-left">{{ el.average_buy_price }}</td>
     <td class="text-left">{{ el.current_price }}</td>
+    <td class="text-left">{{ el.amount }}</td>
     <td class="text-left">{{ el.currency }}</td></tr>
 
     {% endfor %} <!--ряд с ячейками тела таблицы-->
 </tbody>
+<tr><th></th>
+    <th></th>
+    <th>{{ TotalETFYield }}</th>
+    <th></th>
+    <th></th>
+    <th>{{ CurrentAmount }}</th>
+    <th></th></tr>
+</tfoot>
 </table>
-<h1>{{ TotalETFYield }}</h1>
 
 {% endblock %}

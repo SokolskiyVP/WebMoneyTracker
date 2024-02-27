@@ -8,11 +8,10 @@ from . import creds
 ############################### <=== CLASS ===> ############################
 
 class TinkResp:
-    def __init__(self,DetInf, FreeRub, TotalYield, BuyAmount, CurrentAmount):
+    def __init__(self,DetInf, FreeRub, TotalYield, CurrentAmount):
         self.DetInf = DetInf
         self.FreeRub = FreeRub,
         self.TotalYield = TotalYield
-        self.BuyAmount = BuyAmount
         self.CurrentAmoult = CurrentAmount
 
 
@@ -94,7 +93,6 @@ class Hola:
         try:
             with Client(creds.tinkoff_invest_token_read) as cl:
                 TotalYield = 0
-                BuyAmount = 0
                 CurrentAmount = 0
                 r = GeneralInfo()
                 if len(r.positions) < 1: return None
@@ -123,7 +121,6 @@ class Hola:
                         Sector = Details.instrument.sector
                         Alldf.loc[n, 'sector'] = Sector
                         TotalYield = TotalYield + Alldf.iloc[n].expected_yield
-                        BuyAmount = BuyAmount + Alldf.iloc[n].average_buy_price * Alldf.iloc[n].quantity
                         CurrentAmount = CurrentAmount + Alldf.iloc[n].current_price * Alldf.iloc[n].quantity
 
                     elif Alldf.iloc[n].instrument_type == "bond":
@@ -168,7 +165,7 @@ class Hola:
 
                     InstrumentList.append(Instrument)
 
-                    a = TinkResp(DetInf = InstrumentList,FreeRub = FreeRub.quantity, TotalYield = TotalYield, BuyAmount = BuyAmount, CurrentAmount = CurrentAmount)
+                    a = TinkResp(DetInf = InstrumentList,FreeRub = FreeRub.quantity, TotalYield = TotalYield, CurrentAmount = CurrentAmount)
 
             return a
         except RequestError as e:
