@@ -1,5 +1,3 @@
-from typing import Optional
-
 import pandas as pd
 from tinkoff.invest.services import InstrumentsService
 from tinkoff.invest import Client, RequestError, InstrumentIdType, PortfolioPosition
@@ -10,11 +8,22 @@ from . import creds
 ############################### <=== CLASS ===> ############################
 
 class TinkResp:
-    def __init__(self,DetInf, FreeRub, TotalYield):
+    def __init__(self,DetInf, FreeRub, TotalYield, BuyAmount, CurrentAmount):
         self.DetInf = DetInf
         self.FreeRub = FreeRub,
         self.TotalYield = TotalYield
+        self.BuyAmount = BuyAmount
+        self.CurrentAmoult = CurrentAmount
 
+
+def GeneralInfo():
+    try:
+        with Client(creds.tinkoff_invest_token_read) as client:
+            r = client.operations.get_portfolio(account_id=creds.Account_id)
+            return r
+
+    except RequestError as e:
+        print(str(e))
 
 
 class Hola:
@@ -64,6 +73,8 @@ class Hola:
             'current_price': self.cast_money(p.current_price),
             'currency': p.average_position_price.currency,
             'current_nkd': self.cast_money(p.current_nkd),
+            'amount': round(self.cast_money(p.current_price) * self.cast_money(p.quantity),2)
+
         }
 
         if r['currency'] == 'usd':
@@ -79,20 +90,13 @@ class Hola:
 
         return r
 
-    def GeneralInfo(self):
-        try:
-            with Client(creds.tinkoff_invest_token_read) as client:
-                r = client.operations.get_portfolio(account_id=creds.Account_id)
-                return r
-
-        except RequestError as e:
-            print(str(e))
-
     def DetalInfo(self):
         try:
             with Client(creds.tinkoff_invest_token_read) as cl:
                 TotalYield = 0
-                r = self.GeneralInfo()
+                BuyAmount = 0
+                CurrentAmount = 0
+                r = GeneralInfo()
                 if len(r.positions) < 1: return None
                 DetailTinkoffData = pd.DataFrame([Hola().portfolio_pose_todict(p) for p in r.positions])
 
@@ -119,6 +123,8 @@ class Hola:
                         Sector = Details.instrument.sector
                         Alldf.loc[n, 'sector'] = Sector
                         TotalYield = TotalYield + Alldf.iloc[n].expected_yield
+                        BuyAmount = BuyAmount + Alldf.iloc[n].average_buy_price * Alldf.iloc[n].quantity
+                        CurrentAmount = CurrentAmount + Alldf.iloc[n].current_price * Alldf.iloc[n].quantity
 
                     elif Alldf.iloc[n].instrument_type == "bond":
                         Details = instruments.bond_by(id_type=InstrumentIdType.INSTRUMENT_ID_TYPE_FIGI,
@@ -129,9 +135,7 @@ class Hola:
                         Alldf.loc[n, 'name'] = BondName
                         Alldf.loc[n, 'CupQuaPerYear'] = CupQuaPerYear              # Количество выплат по купонам в год.
                         Alldf.loc[n, 'aci_value'] = self.cast_money(aci_value)     #Значение НКД
-                        Sector = Details.instrument.sector
-                        Alldf.loc[n, 'sector'] = Sector
-                        TotalYield = TotalYield + Alldf.iloc[n].expected_yield
+                        Alldf.loc[n, 'sector'] = Details.instrument.sector
 
                     elif Alldf.iloc[n].instrument_type == "etf":
                         Details = instruments.etf_by(id_type=InstrumentIdType.INSTRUMENT_ID_TYPE_FIGI,
@@ -140,15 +144,12 @@ class Hola:
                         Alldf.loc[n, 'name'] = EtfName
                         Sector = Details.instrument.sector
                         Alldf.loc[n, 'sector'] = Sector
-                        TotalYield = TotalYield + Alldf.iloc[n].expected_yield
 
                     elif Alldf.iloc[n].instrument_type == "currency":
                         Details = instruments.currency_by(id_type=InstrumentIdType.INSTRUMENT_ID_TYPE_FIGI,
                                                           id=Alldf.iloc[n].figi)
                         CurName = Details.instrument.name
                         Alldf.loc[n, 'name'] = CurName
-                        TotalYield = TotalYield + Alldf.iloc[n].expected_yield
-
 
                     Instrument = {
                         'name': Alldf.loc[n, "name"],
@@ -160,14 +161,14 @@ class Hola:
                         'currency': Alldf.loc[n, "currency"],
                         'CupQuaPerYear': Alldf.loc[n, "CupQuaPerYear"],
                         'aci_value': Alldf.loc[n, "aci_value"],
+                        'amount': Alldf.loc[n, "amount"],
                         'instrument_type': Alldf.loc[n,"instrument_type"],
                         'sector': Alldf.loc[n, "sector"],
-
                     }
 
                     InstrumentList.append(Instrument)
 
-                    a = TinkResp(DetInf = InstrumentList,FreeRub = FreeRub.quantity, TotalYield = TotalYield)
+                    a = TinkResp(DetInf = InstrumentList,FreeRub = FreeRub.quantity, TotalYield = TotalYield, BuyAmount = BuyAmount, CurrentAmount = CurrentAmount)
 
             return a
         except RequestError as e:
