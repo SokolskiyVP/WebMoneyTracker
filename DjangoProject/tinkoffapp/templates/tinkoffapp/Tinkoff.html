@@ -80,7 +80,7 @@
         <div class="pie-chart__pie"></div>
         <ul class="pie-chart__legend">
           {% for el in ActivesList %}
-          <li><em>{{ el.active_rus }}</em><span>{{ el.amount }}</span></li>
+          <li><em>{{ el.selection_field }}</em><span>{{ el.amount }}</span></li>
           {% endfor %}
         </ul>
       </div>
@@ -96,7 +96,7 @@
         <div class="pie-chart__pie"></div>
         <ul class="pie-chart__legend">
           {% for el in CompaniesList %}
-          <li><em>{{ el.compname }}</em><span>{{ el.amount }}</span></li>
+          <li><em>{{ el.selection_field }}</em><span>{{ el.amount }}</span></li>
           {% endfor %}
         </ul>
       </div>
@@ -112,7 +112,7 @@
         <div class="pie-chart__pie"></div>
         <ul class="pie-chart__legend">
           {% for el in SectorsList %}
-          <li><em>{{ el.sector_rus }}</em><span>{{ el.amount }}</span></li>
+          <li><em>{{ el.selection_field }}</em><span>{{ el.amount }}</span></li>
           {% endfor %}
         </ul>
       </div>

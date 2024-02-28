@@ -5,114 +5,97 @@ import tinkoffapp.TinkoffBack.General_Inf as General_Inf
 
 df_Global = pd.DataFrame()
 
-def ListForDonut(pnd):
-    pnd['amount'] = pnd['price'] * pnd['quantity']
+def ListForDonut(actives):
 
-    del pnd['price']
-    del pnd['quantity']
-    pnd.reset_index(inplace=True)
+    actives['amount'] = actives['price'] * actives['quantity']
 
-    pnd = pnd.sort_values(by='amount', ascending=False)
-    pnd['amount'] = pnd['amount'].astype(numpy.int64)
-
-    List = []
-
-    for i in range(len(pnd)):
-        if pnd.loc[i, 'amount'] != '':
-            pnd.loc[i, 'amount'] = pnd.loc[i, 'amount']
-            List.append((pnd.iloc[i]))
-
-    return List
+    actives = actives.groupby('selection_field').sum()
+    actives.reset_index(inplace=True)
 
 
+
+    print(actives)
+
+    actives['amount'] = actives['amount'].astype(numpy.int64)
+
+    DonutList = []
+
+    for i in range(len(actives)):
+        if actives.loc[i, 'amount'] != '':
+            actives.loc[i, 'amount'] = actives.loc[i, 'amount']
+            DonutList.append((actives.iloc[i]))
+
+    return DonutList
 
 def TinkoffDiagramActives():
+    actives_mapping = {
+       "currency" : "Валюта",
+        "share" : "Акции",
+        "etf" : "Фонды",
+        "bond" : "Облигации",
+    }
+
     activ = df_Global['instrument_type']
     actives = pd.DataFrame()
     actives['instrument_type'] = activ
     actives['quantity'] = df_Global['quantity']
     actives['price'] = df_Global['current_price']
-    actives['active_rus'] = ""
+    actives['selection_field'] = ""
     actives['amount'] = ""
 
-    for el in range(len(actives)):
-        if actives.iloc[el].instrument_type == 'currency':
-            actives.at[el, 'active_rus'] = 'Валюта'
+    actives.reset_index(drop=True, inplace=True)
 
-        elif actives.iloc[el].instrument_type == "share":
-            actives.loc[el, 'active_rus'] = "Акции"
-
-        elif actives.iloc[el].instrument_type == "etf":
-            actives.loc[el, 'active_rus'] = "Фонды"
-
-        elif actives.iloc[el].instrument_type == "bond":
-            actives.loc[el, 'active_rus'] = "Облигации"
-
-    actives = actives.groupby('active_rus').sum()
-    actives.reset_index(inplace=True)
+    actives['selection_field'] = actives['instrument_type'].map(actives_mapping).fillna("???")
 
     ActiveList = ListForDonut(actives)
 
     return ActiveList
 
 def TinkoffDiagramSectors():
+    sector_mapping = {
+        "municipal": "Муниципальный",
+        "financial": "Финансовый",
+        "industrials": "Машиностроение и транспорт",
+        "consumer": "Потребительский",
+        "telecom": "Телекоммуникации",
+        "materials": "Сырьевая промышленность",
+        "energy": "Энергетика",
+        "it": "Информационные технологии",
+        "utilities": "Электроэнергетика"
+    }
+
     sector = df_Global['sector']
     quantity = df_Global['quantity']
     price = df_Global['current_price']
     sectors = pd.DataFrame()
     sectors['sector'] = sector
-    sectors['sector_rus'] = ""
+    sectors['selection_field'] = ""
     sectors['price'] = price
     sectors['quantity'] = quantity
     sectors['amount'] = ""
 
     sectors['instrument_type'] = df_Global['instrument_type']
-    sectors.drop(sectors[sectors['instrument_type'] == 'etf'].index, inplace=True)
+    #sectors.drop(sectors[sectors['instrument_type'] == 'etf'].index, inplace=True)
+    sectors.drop(sectors[sectors['instrument_type'] == 'currency'].index, inplace=True)
     sectors.reset_index(drop=True, inplace=True)
 
-    for el in range(len(sectors)):
-        if sectors.iloc[el].instrument_type == 'currency':
-            sectors.at[el, 'sector_rus'] = 'Валюта'
-
-        elif sectors.iloc[el].sector == "municipal":
-            sectors.loc[el, 'sector_rus'] = "Муниципальный"
-
-        elif sectors.iloc[el].sector == "financial":
-            sectors.loc[el, 'sector_rus'] = "Финансовый"
-
-        elif sectors.iloc[el].sector == "industrials":
-            sectors.loc[el, 'sector_rus'] = "Машиностроение и транспорт"
-
-        elif sectors.iloc[el].sector == "consumer":
-            sectors.loc[el, 'sector_rus'] = "Потребительский"
-
-        elif sectors.iloc[el].sector == "telecom":
-            sectors.loc[el, 'sector_rus'] = "Телекоммуникации"
-
-        elif sectors.iloc[el].sector == "materials":
-            sectors.loc[el, 'sector_rus'] = "Сырьевая промышленность"
-
-        elif sectors.iloc[el].sector == "energy":
-            sectors.loc[el, 'sector_rus'] = "Энергетика"
-
-    sectors = sectors.groupby('sector_rus').sum()
-    sectors.reset_index(inplace=True)
-
-    del sectors['sector']
-    del sectors['instrument_type']
+    sectors['selection_field'] = sectors['sector'].map(sector_mapping).fillna("???")
 
     SectorsList = ListForDonut(sectors)
 
     return SectorsList
+
 def TinkoffDiagramCompanies():
     company = df_Global['name']
     quantity = df_Global['quantity']
     price = df_Global['current_price']
     companies = pd.DataFrame()
-    companies['compname'] = company
+    companies['selection_field'] = company
     companies['price'] = price
     companies['quantity'] = quantity
     companies['amount'] = ""
+
+    companies.sort_values(by='amount', inplace=False)
 
     CompaniesList = ListForDonut(companies)
 
@@ -140,7 +123,7 @@ def tinkoffapp(request):
         'total_amount_shares':round(General_Inf.Hola().cast_money(GenTinkoffData.total_amount_shares),1),
         'total_amount_bonds': round(General_Inf.Hola().cast_money(GenTinkoffData.total_amount_bonds),1),
         'total_amount_etf': round(General_Inf.Hola().cast_money(GenTinkoffData.total_amount_etf),1),
-        'total_amount_currencies': round(General_Inf.Hola().cast_money(GenTinkoffData.total_amount_currencies),1),
+        'total_amount_currencies': round((General_Inf.Hola().cast_money(GenTinkoffData.total_amount_currencies) - FreeRub),1),
         'FreeRub': round(FreeRub,1),
         'TotalYield': round(TotalYield,1),
         'TotalShareYield': round(TotalShareYield,1),
