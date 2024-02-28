@@ -42,11 +42,17 @@ function createPie(id) {
     color         = [
       "#5C0DAC",
       "#A600A6",
+      "#FF07D6",
+      "#FF0783",
+      "#07ff83",
+      "#8CBB26",
+      "#FF8307",
       "#CCF600",
       "#FFEF00",
       "#00937e",
-      "#7ed1e2",
-      "#569cfa",
+      "#07FFFF",
+      "#0783FF",
+      "#0707FF",
       "#a5ea9b",
       "#ffcc81"
     ];

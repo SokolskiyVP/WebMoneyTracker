@@ -55,7 +55,6 @@ class Hola:
         """
         if not self.usdrur:
             # т.к. есть валютные активы (у меня etf), то нужно их отконвертить в рубли
-            # я работаю только в долл, вам возможно будут нужны и др валюты
             u = self.client.market_data.get_last_prices(figi=['USD000UTSTOM'])
             self.usdrur = self.cast_money(u.last_prices[0].price)
 
