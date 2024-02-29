@@ -63,7 +63,6 @@ body {
 .pie-chart__legend {
   display: block;
   list-style-type: none;
-  padding: 0;
   margin: 0 auto;
   background: #232323;
   border-radius: 20px;

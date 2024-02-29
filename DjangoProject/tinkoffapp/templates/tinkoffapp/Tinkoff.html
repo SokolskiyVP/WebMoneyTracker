@@ -7,17 +7,19 @@
     <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/DrawSVGPlugin3.min.js"></script>
 
 
-    <link rel="stylesheet" href="{% static 'css/navigation.css' %}">
-    <link rel="stylesheet" href="{% static 'css/tinkoff.css' %}">
-    <link rel="stylesheet" href="{% static 'css/Cat.css' %}">
-    <link rel="stylesheet" href="{% static 'css/Donut.css' %}">
+    <link rel="stylesheet" href="{% static 'tinkoffapp/css/navigation.css' %}">
+    <link rel="stylesheet" href="{% static 'tinkoffapp/css/tinkoff.css' %}">
+    <link rel="stylesheet" href="{% static 'tinkoffapp/css/Cat.css' %}">
+    <link rel="stylesheet" href="{% static 'tinkoffapp/css/Donut.css' %}">
 {% endblock %}
 
 {% block title %}
     Тинькофф Инвестиции
 {% endblock %}
 
-
+{% block menu %}
+	{% include 'main/menu.html' %}
+{% endblock %}
 
 {% block content %}
     <div id="TinkoffInfo">
@@ -127,8 +129,8 @@
 {% endblock %}
 
 {% block script %}
-<script src="{% static 'js/cat.js' %}"></script>
-<script src="{% static 'js/yieldcolor.js' %}"></script>
+<script src="{% static 'tinkoffapp/js/cat.js' %}"></script>
+<script src="{% static 'tinkoffapp/js/yieldcolor.js' %}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-<script type="text/javascript" src="{% static 'js/donut.js' %}"></script>
+<script type="text/javascript" src="{% static 'tinkoffapp/js/donut.js' %}"></script>
 {% endblock %}
