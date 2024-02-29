@@ -7,6 +7,10 @@
 	<link rel="stylesheet" href="{% static 'main/css/navigation.css' %}">
 {% endblock %}
 
+{% block menu %}
+	{% include 'main/menu.html' %}
+{% endblock %}
+
 {% block title %}
     Главная
 {% endblock %}
@@ -15,7 +19,7 @@
 <div id="workspace">
 
 	<div class = "TinkoffInvestB">
-		<a href="{% url 'tinkoffapp' %}"> <button></button> </a>
+		<a href="{% url 'tinkoffapp' %}"> <button id="TinkoffInvestButton"></button> </a>
 	</div>
 
 	<!-- ===============================================/*

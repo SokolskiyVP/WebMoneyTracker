@@ -14,21 +14,8 @@
 </head>
 <body>
 
-<nav role="navigation">
-  <div id="menuToggle">
+    {% block menu %} {% endblock %}
 
-    <input type="checkbox" />
-
-    <span></span>
-    <span></span>
-    <span></span>
-    <ul id="menu">
-      <a href="{% url 'home' %}"><li>Главная</li></a>
-      <a href="{% url 'tinkoffapp' %}"><li>Tinkoff invest</li></a>
-      <a href="{% url 'tinkoffapp' %}"><li>Binance</li></a>
-    </ul>
-  </div>
-</nav>
 <main>
     {% block content %} {% endblock %}
 </main>

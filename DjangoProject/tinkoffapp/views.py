@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 import pandas as pd
 import numpy
@@ -11,10 +12,6 @@ def ListForDonut(actives):
 
     actives = actives.groupby('selection_field').sum()
     actives.reset_index(inplace=True)
-
-
-
-    print(actives)
 
     actives['amount'] = actives['amount'].astype(numpy.int64)
 
@@ -101,6 +98,7 @@ def TinkoffDiagramCompanies():
 
     return CompaniesList
 
+@login_required
 def tinkoffapp(request):
     GenTinkoffData = General_Inf.GeneralInfo()
     DetalInfo = General_Inf.Hola().DetalInfo()
@@ -137,7 +135,6 @@ def tinkoffapp(request):
 
     return render(request, 'tinkoffapp/Tinkoff.html', data)
 
-
 def tinkoff_shares():
     TotalYield = 0
     BuyAmount = 0
@@ -159,6 +156,7 @@ def tinkoff_shares():
     }
     return ShareDick
 
+@login_required
 def render_tinkoff_shares(request):
     ShareDick = tinkoff_shares()
 
@@ -186,6 +184,7 @@ def tinkoff_bonds():
     }
     return BondDick
 
+@login_required
 def render_tinkoff_bonds(request):
     BondDick = tinkoff_bonds()
 
@@ -212,6 +211,7 @@ def tinkoff_etf():
     }
     return ETFDick
 
+@login_required
 def render_tinkoff_etf(request):
     ETFDick = tinkoff_etf()
 
@@ -238,6 +238,7 @@ def tinkoff_curr():
     }
     return CurrDick
 
+@login_required
 def render_tinkoff_curr(request):
     CurrDick = tinkoff_curr()
 
