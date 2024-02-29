@@ -1,3 +1,5 @@
-from django.db import models
+from django import forms
 
-# Create your models here.
+class LoginUserForm(forms.Form):
+    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}),max_length=30)
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
