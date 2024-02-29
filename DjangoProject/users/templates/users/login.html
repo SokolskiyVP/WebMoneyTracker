@@ -1,0 +1,36 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block head %}
+	<link rel="stylesheet" href="{% static 'users/css/login.css' %}">
+{% endblock %}
+
+{% block title %}
+    Главная
+{% endblock %}
+
+
+{% block content %}
+<div class="login-box">
+  <form method="post">
+    <input type="hidden" name="csrfmiddlewaretoken" value="XHNQKx2B61n8U71EmxbtCXOPrLvqbir3UfDp782DtE7QRXmVCcQTNncYFoETDeEO">
+    <div class="user-box">
+      <input type="text" name="username" id="id_username" required="">
+      <label for="id_username">Username</label>
+    </div>
+    <div class="user-box">
+      <input type="password" name="password" id="id_password" required="">
+      <label for="id_password">Password</label>
+    </div>
+    <div id="ButtonDiv">
+      <button type="submit">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        Войти
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}
