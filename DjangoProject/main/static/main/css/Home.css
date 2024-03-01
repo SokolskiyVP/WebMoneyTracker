@@ -27,35 +27,6 @@ html {
 
   line-height: 1; }
 
-.TinkoffInvestB{
-  z-index: 5;
-  top: 40%;
-  left: 38%;
-
-}
-
-#TinkoffInvestB a {
-  z-index: 101;
-  width: 80px;
-  height: 80px;
-}
-
-/* =============================================== /*
-/*                      Tinkoff button             /*
-/* =============================================== */
-
-
-button#TinkoffInvestButton {
-  width: 80px;
-  height: 80px;
-  border: none;
-  background-image: url(../img/TinkoffInvest.png);
-  background-size: cover;
-  background-color: transparent;
-  z-index: 1;
-  cursor: pointer;
-}
-
 ol, ul {
   list-style: none; }
 
@@ -120,7 +91,6 @@ body {
   border-top: 9px solid #b79765; }
 #workspace .desk {
   width: 990px;
-  height: 100%;
   margin: auto;
   position: inherit; }
 
@@ -168,13 +138,6 @@ body {
       right: -5px; }
   #shelf ul li {
     float: left; }
-
-/*
-/*
-/* =============================================== /*
-/*               Clock animated By                 /*
-/* =============================================== */
-
 
 /*
 /*
@@ -837,7 +800,7 @@ body {
 /* =============================================== */
 .imac {
   z-index:1;
-  margin-top: -274px;
+  margin-top: -272px;
   margin-left: 149px;
   width: 289px;
   height: 175px;
@@ -877,15 +840,45 @@ body {
     width: 100%;
     height: 100%; }
 
-/*
-/*
 /* =============================================== /*
-/*                     Note1                        /*
+/*                      Tinkoff button             /*
+/* =============================================== */
+
+.TinkoffInvestB{
+  z-index: 5;
+  top: 10px;
+  left: 10%;
+
+}
+
+#TinkoffInvestB a {
+  z-index: 101;
+  width: 80px;
+  height: 80px;
+}
+
+
+
+
+button#TinkoffInvestButton {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border: none;
+  background-image: url(../img/TinkoffInvest.png);
+  background-size: cover;
+  background-color: transparent;
+  z-index: 1;
+  cursor: pointer;
+}
+
+/* =============================================== /*
+/*                     Notes                    /*
 /* =============================================== */
 .note1 {
 
-  width: 31px;
-  height: 21px;
+  width: 38px;
+  height: 25px;
   position: absolute;
   background: #f9ec3e;
   bottom: -39px;
@@ -903,12 +896,12 @@ body {
   color: black;
   padding-top: 7px; }
 
-.note2 {
+  .note2 {
   width: 80px;
-  height: 21px;
+  height: 25px;
   position: absolute;
   background: #3ef9c7;
-  left: 70%;
+  left: 60%;
   bottom: -39px;
   border-top: 6px solid #22caab;
   -webkit-box-shadow: 0 1px 2px gainsboro;
@@ -917,7 +910,8 @@ body {
   font-size: 11px;
   text-align: center;
   color: black;
-  padding-top: 7px; }
+  padding-top: 7px;
+  z-index: 3; }
 
 /*
 /*
@@ -1159,21 +1153,6 @@ body {
       width: 43px;
       height: 18px;
       border-bottom: 14px solid #eee; }
-
-  /* Note */
-  .note1 {
-    width: 23px;
-    height: 16px;
-    bottom: -31px;
-    border-top: 3px solid #cac222;
-    font-size: 9px; }
-
-    .note2 {
-    width: 23px;
-    height: 16px;
-    bottom: -10px;
-    border-top: 3px solid #cac222;
-    font-size: 9px; }
 
   /* Mouse */
   .mouse {

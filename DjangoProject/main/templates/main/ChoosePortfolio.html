@@ -1,0 +1,34 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+
+{% block head %}
+	<link rel="stylesheet" href="{% static 'main/css/Home.css' %}">
+	<link rel="stylesheet" href="{% static 'main/css/navigation.css' %}">
+	<link rel="stylesheet" href="{% static 'main/css/ChoosePortfolio.css' %}">
+{% endblock %}
+
+{% block menu %}
+	{% include 'main/menu.html' %}
+{% endblock %}
+
+{% block title %}
+    Выбор счета
+{% endblock %}
+
+{% block content %}
+
+<div class="workspace">
+    <div class="ChooseBtns">
+
+			<a href="{% url 'tinkoffapp' %}?ButtonName=MainPortf " class="Btn" id="btn1"><span>Основной</span></a>
+			<a href="{% url 'tinkoffapp' %}?ButtonName=MamanPortf" class="Btn" id="btn2"><span>Маман</span></a>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}

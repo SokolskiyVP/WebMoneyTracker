@@ -18,25 +18,6 @@
 {% block content %}
 <div id="workspace">
 
-	<div class = "TinkoffInvestB">
-		<a href="{% url 'tinkoffapp' %}"> <button id="TinkoffInvestButton"></button> </a>
-	</div>
-
-	<!-- ===============================================/*
-	/*                    Clock                         /*
-	/* =============================================== -->			
-	<div class="clock">
-	  <div class="top"></div>
-	  <div class="right"></div>
-	  <div class="bottom"></div>
-	  <div class="left"></div>
-	  <div class="center"></div>
-	  <div class="hour"></div>
-	  <div class="minute"></div>
-	  <div class="second"></div>
-	</div>
-
-
 	<!-- ===============================================/*
 	/*                    Shelf                         /*
 	/* =============================================== -->
@@ -100,8 +81,9 @@
 				/*                    iMac                          /*
 				/* =============================================== -->
 				<div class="imac">
-					<!-- <img src="" alt=""> -->
-					<!-- Note -->
+					<div class = "TinkoffInvestB">
+						<a href="{% url 'ChoosePortfolio' %}"> <button id="TinkoffInvestButton"></button> </a>
+					</div>
 					<span class="note1">Сегежа Групп</span>
 					<span class="note2">Какой-то длинный такс</span>
 				</div>
@@ -141,7 +123,7 @@
 			/*                      StickerBoard                /*
 			/* =============================================== -->
 
-			<span class="Board"></span>
+
 
 
 
@@ -151,10 +133,4 @@
 {% endblock %}
 
 {% block script %}
-<!-- ===============================================/*
-/*                                                  /* 
-/*                      Javascript                  /*
-/*                                                  /*
-/* =============================================== -->
-<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 {% endblock %}

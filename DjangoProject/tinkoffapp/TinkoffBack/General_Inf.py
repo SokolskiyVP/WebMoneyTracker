@@ -14,12 +14,22 @@ class TinkResp:
         self.TotalYield = TotalYield
         self.CurrentAmoult = CurrentAmount
 
+def GeneralInfo(ButtonName):
+    global tocken
 
-def GeneralInfo():
     try:
-        with Client(creds.tinkoff_invest_token_read) as client:
-            r = client.operations.get_portfolio(account_id=creds.Account_id)
-            return r
+        if ButtonName == "MainPortf":
+            tocken = creds.tinkoff_invest_token_main
+        elif ButtonName == "MamanPortf":
+            tocken = creds.tinkoff_invest_token_maman
+
+        with Client(tocken) as client:
+
+            acc = client.users.get_accounts()
+            Account_id = acc.accounts[0].id
+            Portf = client.operations.get_portfolio(account_id=Account_id)
+
+            return Portf
 
     except RequestError as e:
         print(str(e))
@@ -28,7 +38,7 @@ def GeneralInfo():
 class Hola:
     def __init__(self):
         self.usdrur = None
-        self.client = Client(creds.tinkoff_invest_token_read)
+        self.client = Client(creds.tinkoff_invest_token_main)
         self.accounts = []
         self.total_amount_portfolio = None
         self.total_amount_shares = None
@@ -88,14 +98,13 @@ class Hola:
 
         return r
 
-    def DetalInfo(self):
+    def DetalInfo(self,positions):
         try:
-            with Client(creds.tinkoff_invest_token_read) as cl:
+            with Client(creds.tinkoff_invest_token_main) as cl:
                 TotalYield = 0
                 CurrentAmount = 0
-                r = GeneralInfo()
-                if len(r.positions) < 1: return None
-                DetailTinkoffData = pd.DataFrame([Hola().portfolio_pose_todict(p) for p in r.positions])
+                if len(positions) < 1: return None
+                DetailTinkoffData = pd.DataFrame([Hola().portfolio_pose_todict(p) for p in positions])
 
                 FreeRub = DetailTinkoffData[DetailTinkoffData['figi'] == 'RUB000UTSTOM']
                 DetailTinkoffData.drop(DetailTinkoffData[DetailTinkoffData['figi'] == 'RUB000UTSTOM'].index,

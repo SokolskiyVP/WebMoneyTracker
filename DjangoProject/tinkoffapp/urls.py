@@ -7,5 +7,4 @@ urlpatterns = [
     path('bonds/',views.render_tinkoff_bonds, name='bonds'),
     path('etf/',views.render_tinkoff_etf, name='etf'),
     path('currency/',views.render_tinkoff_curr, name='currency'),
-
 ]

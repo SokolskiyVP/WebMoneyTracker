@@ -6,6 +6,158 @@ import tinkoffapp.TinkoffBack.General_Inf as General_Inf
 
 df_Global = pd.DataFrame()
 
+@login_required
+def tinkoffapp(request):
+
+    ButtonName =  request.GET.get("ButtonName")
+
+    GenTinkoffData = General_Inf.GeneralInfo(ButtonName)
+    DetalInfo = General_Inf.Hola().DetalInfo(GenTinkoffData.positions)
+    Details = pd.DataFrame(DetalInfo.DetInf)
+    global df_Global
+    df_Global = pd.DataFrame(Details)
+    FreeRub = DetalInfo.FreeRub[0].tolist()[0]
+    TotalYield = DetalInfo.TotalYield
+    TotalShareYield = tinkoff_shares()['TotalShareYield']
+    TotalBondYield = tinkoff_bonds()['TotalBondYield']
+    TotalETFYield = tinkoff_etf()['TotalETFYield']
+    TotalCurrYield = tinkoff_curr()['TotalCurrYield']
+    SectorsList = TinkoffDiagramSectors()
+    ActivesList = TinkoffDiagramActives()
+    CompaniesList = TinkoffDiagramCompanies()
+
+    data = {
+        'total_amount_portfolio': round(General_Inf.Hola().cast_money(GenTinkoffData.total_amount_portfolio),1),
+        'expected_yield': round(General_Inf.Hola().cast_money(GenTinkoffData.expected_yield),1),
+        'total_amount_shares':round(General_Inf.Hola().cast_money(GenTinkoffData.total_amount_shares),1),
+        'total_amount_bonds': round(General_Inf.Hola().cast_money(GenTinkoffData.total_amount_bonds),1),
+        'total_amount_etf': round(General_Inf.Hola().cast_money(GenTinkoffData.total_amount_etf),1),
+        'total_amount_currencies': round((General_Inf.Hola().cast_money(GenTinkoffData.total_amount_currencies) - FreeRub),1),
+        'FreeRub': round(FreeRub,1),
+        'TotalYield': round(TotalYield,1),
+        'TotalShareYield': round(TotalShareYield,1),
+        'TotalBondYield': round(TotalBondYield,1),
+        'TotalETFYield': round(TotalETFYield,1),
+        'TotalCurrYield': round(TotalCurrYield,1),
+        'SectorsList': SectorsList,
+        'ActivesList': ActivesList,
+        'CompaniesList': CompaniesList,
+    }
+
+    return render(request, 'tinkoffapp/Tinkoff.html', data)
+
+def tinkoff_shares():
+    TotalYield = 0
+    BuyAmount = 0
+    CurrentAmount = 0
+    ShareList = []
+    df = df_Global
+    for el in range(len(df)):
+        if df.iloc[el].instrument_type == 'share':
+            ShareList.append(df.iloc[el])
+            TotalYield = TotalYield + df.iloc[el].expected_yield
+            BuyAmount = BuyAmount + df.iloc[el].average_buy_price * df.iloc[el].quantity
+            CurrentAmount = CurrentAmount + df.iloc[el].current_price * df.iloc[el].quantity
+
+    ShareDick= {
+        'ShareList': ShareList,
+        'TotalShareYield': round(TotalYield,1),
+        'BuyAmount': round(BuyAmount, 1),
+        'CurrentAmount': round(CurrentAmount, 1),
+    }
+    return ShareDick
+
+@login_required
+def render_tinkoff_shares(request):
+    ShareDick = tinkoff_shares()
+
+    return render(request, 'tinkoffapp/TinkoffShares.html', ShareDick)
+
+def tinkoff_bonds():
+    TotalYield = 0
+    BuyAmount = 0
+    CurrentAmount = 0
+    TotalNKD = 0
+    BondList = []
+    df = df_Global
+    for el in range(len(df)):
+        if df.iloc[el].instrument_type == 'bond':
+            BondList.append(df.iloc[el])
+            TotalYield = TotalYield + df.iloc[el].expected_yield
+            BuyAmount = BuyAmount + df.iloc[el].average_buy_price * df.iloc[el].quantity
+            CurrentAmount = CurrentAmount + df.iloc[el].current_price * df.iloc[el].quantity
+            TotalNKD = TotalNKD + df.iloc[el].aci_value
+
+    BondDick= {
+        'BondList': BondList,
+        'TotalBondYield': round(TotalYield,1),
+        'BuyAmount': round(BuyAmount, 1),
+        'CurrentAmount': round(CurrentAmount, 1),
+        'TotalNKD': round(TotalNKD, 1),
+
+    }
+    return BondDick
+
+@login_required
+def render_tinkoff_bonds(request):
+    BondDick = tinkoff_bonds()
+
+    return render(request, 'tinkoffapp/TinkoffBonds.html', BondDick)
+
+def tinkoff_etf():
+    TotalYield = 0
+    BuyAmount = 0
+    CurrentAmount = 0
+    ETFList = []
+    df = df_Global
+    for el in range(len(df)):
+        if df.iloc[el].instrument_type == 'etf':
+            ETFList.append(df.iloc[el])
+            TotalYield = TotalYield + df.iloc[el].expected_yield
+            BuyAmount = BuyAmount + df.iloc[el].average_buy_price * df.iloc[el].quantity
+            CurrentAmount = CurrentAmount + df.iloc[el].current_price * df.iloc[el].quantity
+
+    ETFDick= {
+        'ETFList': ETFList,
+        'TotalETFYield': round(TotalYield,1),
+        'BuyAmount': round(BuyAmount, 1),
+        'CurrentAmount': round(CurrentAmount, 1),
+    }
+    return ETFDick
+
+@login_required
+def render_tinkoff_etf(request):
+    ETFDick = tinkoff_etf()
+
+    return render(request, 'tinkoffapp/TinkoffETF.html', ETFDick)
+
+def tinkoff_curr():
+    TotalYield = 0
+    BuyAmount = 0
+    CurrentAmount = 0
+    CurrList = []
+    df = df_Global
+    for el in range(len(df)):
+        if df.iloc[el].instrument_type == 'currency':
+            CurrList.append(df.iloc[el])
+            TotalYield = TotalYield + df.iloc[el].expected_yield
+            BuyAmount = BuyAmount + df.iloc[el].average_buy_price * df.iloc[el].quantity
+            CurrentAmount = CurrentAmount + df.iloc[el].current_price * df.iloc[el].quantity
+
+    CurrDick= {
+        'CurrList': CurrList,
+        'TotalCurrYield': round(TotalYield,1),
+        'BuyAmount': round(BuyAmount, 1),
+        'CurrentAmount': round(CurrentAmount, 1),
+    }
+    return CurrDick
+
+@login_required
+def render_tinkoff_curr(request):
+    CurrDick = tinkoff_curr()
+
+    return render(request, 'tinkoffapp/TinkoffCurrency.html', CurrDick)
+
 def ListForDonut(actives):
 
     actives['amount'] = actives['price'] * actives['quantity']
@@ -97,150 +249,3 @@ def TinkoffDiagramCompanies():
     CompaniesList = ListForDonut(companies)
 
     return CompaniesList
-
-@login_required
-def tinkoffapp(request):
-    GenTinkoffData = General_Inf.GeneralInfo()
-    DetalInfo = General_Inf.Hola().DetalInfo()
-    Details = pd.DataFrame(DetalInfo.DetInf)
-    global df_Global
-    df_Global = pd.DataFrame(Details)
-    FreeRub = DetalInfo.FreeRub[0].tolist()[0]
-    TotalYield = DetalInfo.TotalYield
-    TotalShareYield = tinkoff_shares()['TotalShareYield']
-    TotalBondYield = tinkoff_bonds()['TotalBondYield']
-    TotalETFYield = tinkoff_etf()['TotalETFYield']
-    TotalCurrYield = tinkoff_curr()['TotalCurrYield']
-    SectorsList = TinkoffDiagramSectors()
-    ActivesList = TinkoffDiagramActives()
-    CompaniesList = TinkoffDiagramCompanies()
-
-    data = {
-        'total_amount_portfolio': round(General_Inf.Hola().cast_money(GenTinkoffData.total_amount_portfolio),1),
-        'expected_yield': round(General_Inf.Hola().cast_money(GenTinkoffData.expected_yield),1),
-        'total_amount_shares':round(General_Inf.Hola().cast_money(GenTinkoffData.total_amount_shares),1),
-        'total_amount_bonds': round(General_Inf.Hola().cast_money(GenTinkoffData.total_amount_bonds),1),
-        'total_amount_etf': round(General_Inf.Hola().cast_money(GenTinkoffData.total_amount_etf),1),
-        'total_amount_currencies': round((General_Inf.Hola().cast_money(GenTinkoffData.total_amount_currencies) - FreeRub),1),
-        'FreeRub': round(FreeRub,1),
-        'TotalYield': round(TotalYield,1),
-        'TotalShareYield': round(TotalShareYield,1),
-        'TotalBondYield': round(TotalBondYield,1),
-        'TotalETFYield': round(TotalETFYield,1),
-        'TotalCurrYield': round(TotalCurrYield,1),
-        'SectorsList': SectorsList,
-        'ActivesList': ActivesList,
-        'CompaniesList': CompaniesList,
-    }
-
-    return render(request, 'tinkoffapp/Tinkoff.html', data)
-
-def tinkoff_shares():
-    TotalYield = 0
-    BuyAmount = 0
-    CurrentAmount = 0
-    ShareList = []
-    df = df_Global
-    for el in range(len(df)):
-        if df.iloc[el].instrument_type == 'share':
-            ShareList.append(df.iloc[el])
-            TotalYield = TotalYield + df.iloc[el].expected_yield
-            BuyAmount = BuyAmount + df.iloc[el].average_buy_price * df.iloc[el].quantity
-            CurrentAmount = CurrentAmount + df.iloc[el].current_price * df.iloc[el].quantity
-
-    ShareDick= {
-        'ShareList': ShareList,
-        'TotalShareYield': round(TotalYield,1),
-        'BuyAmount': round(BuyAmount, 1),
-        'CurrentAmount': round(CurrentAmount, 1),
-    }
-    return ShareDick
-
-@login_required
-def render_tinkoff_shares(request):
-    ShareDick = tinkoff_shares()
-
-    return render(request, 'tinkoffapp/TinkoffShares.html', ShareDick)
-
-def tinkoff_bonds():
-    TotalYield = 0
-    BuyAmount = 0
-    CurrentAmount = 0
-    BondList = []
-    df = df_Global
-    for el in range(len(df)):
-        if df.iloc[el].instrument_type == 'bond':
-            BondList.append(df.iloc[el])
-            TotalYield = TotalYield + df.iloc[el].expected_yield
-            BuyAmount = BuyAmount + df.iloc[el].average_buy_price * df.iloc[el].quantity
-            CurrentAmount = CurrentAmount + df.iloc[el].current_price * df.iloc[el].quantity
-
-    BondDick= {
-        'BondList': BondList,
-        'TotalBondYield': round(TotalYield,1),
-        'BuyAmount': round(BuyAmount, 1),
-        'CurrentAmount': round(CurrentAmount, 1),
-
-    }
-    return BondDick
-
-@login_required
-def render_tinkoff_bonds(request):
-    BondDick = tinkoff_bonds()
-
-    return render(request, 'tinkoffapp/TinkoffBonds.html', BondDick)
-
-def tinkoff_etf():
-    TotalYield = 0
-    BuyAmount = 0
-    CurrentAmount = 0
-    ETFList = []
-    df = df_Global
-    for el in range(len(df)):
-        if df.iloc[el].instrument_type == 'etf':
-            ETFList.append(df.iloc[el])
-            TotalYield = TotalYield + df.iloc[el].expected_yield
-            BuyAmount = BuyAmount + df.iloc[el].average_buy_price * df.iloc[el].quantity
-            CurrentAmount = CurrentAmount + df.iloc[el].current_price * df.iloc[el].quantity
-
-    ETFDick= {
-        'ETFList': ETFList,
-        'TotalETFYield': round(TotalYield,1),
-        'BuyAmount': round(BuyAmount, 1),
-        'CurrentAmount': round(CurrentAmount, 1),
-    }
-    return ETFDick
-
-@login_required
-def render_tinkoff_etf(request):
-    ETFDick = tinkoff_etf()
-
-    return render(request, 'tinkoffapp/TinkoffETF.html', ETFDick)
-
-def tinkoff_curr():
-    TotalYield = 0
-    BuyAmount = 0
-    CurrentAmount = 0
-    CurrList = []
-    df = df_Global
-    for el in range(len(df)):
-        if df.iloc[el].instrument_type == 'currency':
-            CurrList.append(df.iloc[el])
-            TotalYield = TotalYield + df.iloc[el].expected_yield
-            BuyAmount = BuyAmount + df.iloc[el].average_buy_price * df.iloc[el].quantity
-            CurrentAmount = CurrentAmount + df.iloc[el].current_price * df.iloc[el].quantity
-
-    CurrDick= {
-        'CurrList': CurrList,
-        'TotalCurrYield': round(TotalYield,1),
-        'BuyAmount': round(BuyAmount, 1),
-        'CurrentAmount': round(CurrentAmount, 1),
-    }
-    return CurrDick
-
-@login_required
-def render_tinkoff_curr(request):
-    CurrDick = tinkoff_curr()
-
-    return render(request, 'tinkoffapp/TinkoffCurrency.html', CurrDick)
-
