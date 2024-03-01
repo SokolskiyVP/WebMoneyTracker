@@ -13,7 +13,7 @@
 {% block content %}
 <div class="login-box">
   <form method="post">
-    <input type="hidden" name="csrfmiddlewaretoken" value="XHNQKx2B61n8U71EmxbtCXOPrLvqbir3UfDp782DtE7QRXmVCcQTNncYFoETDeEO">
+    {% csrf_token %}
     <div class="user-box">
       <input type="text" name="username" id="id_username" required="">
       <label for="id_username">Username</label>

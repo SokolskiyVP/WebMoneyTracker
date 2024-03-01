@@ -5,12 +5,16 @@ from django.shortcuts import render
 @login_required
 def home(request):
     return render(request, 'main/Home.html')
+
 @login_required
 def tinkoff(request):
     return render(request, 'main/')
 
-def page_not_found(request, exception):
+@login_required
+def ChoosePortfolio(request):
+    return render(request, 'main/ChoosePortfolio.html')
 
-    return HttpResponseNotFound('404/')
+def page_not_found(request, exception):
+    return HttpResponseNotFound('main/404.html')
 
 

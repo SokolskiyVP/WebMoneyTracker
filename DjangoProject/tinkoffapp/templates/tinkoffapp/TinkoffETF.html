@@ -16,6 +16,7 @@
 
 {% block content %}
 
+<div class="workspace">
 <table class="table-fill">
 <thead>
 <tr><th>Наименование</th>
@@ -29,7 +30,6 @@
 <tbody class="table-hover">
     {% for el in ETFList %}
     <tr><td class="text-left">{{ el.name }}</td>
-    <td class="text-left">{{ el.figi }}</td>
     <td class="text-left">{{ el.quantity }}</td>
     <td class="text-left">{{ el.expected_yield }}</td>
     <td class="text-left">{{ el.average_buy_price }}</td>
@@ -48,5 +48,6 @@
     <th></th></tr>
 </tfoot>
 </table>
+</div>
 
 {% endblock %}
