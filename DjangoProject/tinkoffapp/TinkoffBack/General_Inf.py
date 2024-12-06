@@ -15,15 +15,15 @@ class TinkResp:
         self.CurrentAmoult = CurrentAmount
 
 def GeneralInfo(ButtonName):
-    global tocken
+    global token
 
     try:
         if ButtonName == "MainPortf":
-            tocken = creds.tinkoff_invest_token_main
+            token = creds.tinkoff_invest_token_main
         elif ButtonName == "MamanPortf":
-            tocken = creds.tinkoff_invest_token_maman
+            token = creds.tinkoff_invest_token_maman
 
-        with Client(tocken) as client:
+        with Client(token) as client:
 
             acc = client.users.get_accounts()
             Account_id = acc.accounts[0].id
